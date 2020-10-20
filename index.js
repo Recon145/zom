@@ -2,13 +2,20 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
+var fs = require('fs');
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', function(socket){
-    socket.emit('chat message', "http://example.com");
+    fs.readFile('url.txt', 'utf8', function (err,data) {
+        if (err) {
+          return console.log(err);
+        }
+        io.emit('chat message', data);
+        console.log(data);
+    
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });

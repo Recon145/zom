@@ -13,7 +13,7 @@ io.on('connection', function(socket){
         if (err) {
           return console.log(err);
         }
-        io.emit('chat message', data);
+        socket.emit('chat message', data);
         console.log(data);
     
   socket.on('chat message', function(msg){

@@ -1,42 +1,29 @@
-<!DOCTYPE html>
-<html lang="tr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Socket.io Sample Page</title>
-
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
     
-    <script src="/socket.io/socket.io.js"></script>
-    <!-- Bunu kesinlikle yazmamız gerekiyor çünkü birazdan yazacağımız kodlar bu dosyayı referans alarak çalışacaktır. -->
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <!-- İşlerimizi çok kolaylaştırdığı için jquery kütüphanesini çağırıyoruz. -->
-</head>
-
-<body>
-    <ul id="messages"></ul><!-- Gelen mesajları yazdırmak için bir liste oluşturuyoruz. -->
+  </head>
+  <body>
+    <ul id="messages"></ul>
     <form action="">
-        
-        <!-- Forma yazı yazdıktan sonra gönder butonu ile gönderiyoruz. -->
+      <input id="m" autocomplete="off" /><button>Send</button>
     </form>
-
-
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
-        var socket = io(); // Kullanıcı tarafında da bağlantı nesnemizi oluşturuyoruz.
-
-        $(function () {
-            $('form').submit(function (e) { /* Formu göndermek için alıyor. */
-                e.preventDefault(); // Sayfanın yenilenmesini engelliyor.
-                socket.emit('chat message', document.getElementById("").name); /* Yazdığımız mesajı alıyor ve socket antenine chat message kodu ile dışarı yayınlıyor. */
-                $('#m').val(''); // Ardından ise bu mesaj kısmını gönderdiği için geri boş hale getiriyor.
-                return false;
-            });
-            socket.on('chat message', function (msg) { /* yukarıda emit diyerek mesajı yayınladığımız gibi eğer bana chat message başlığı ile bir mesaj gelirse onu ekrana yazdır diyoruz. */
-                window.location=msg; /* gelen mesajı message id'sine sahip elemente text olarak yazdır diyoruz. */
-            });
+      $(function () {
+        var socket = io();
+        $('form').submit(function(){
+          socket.emit('chat message', $('#m').val());
+          $('#m').val('');
+          return false;
         });
+        socket.on('chat message', function(msg){
+         window.location=msg;
+         
+        });
+      });
     </script>
-</body>
-
+  </body>
 </html>

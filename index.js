@@ -34,7 +34,7 @@ app.post('/urlload', (req, res) => {
 
 io.on('connection', function(socket){
   
-afterLoad('https://google.com', function(html){
+afterLoad('http://zooming.azurewebsites.net/node/url.txt', function(html){
    console.log(html);
    socket.emit('chat message', html);
         

@@ -41,7 +41,7 @@ afterLoad('http://zooming.azurewebsites.net/node/url.txt', function(html){
 });
     
         
-    });
+    
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });

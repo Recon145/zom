@@ -3,12 +3,19 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 var fs = require('fs');
-var afterLoad = require('after-load');
+var request = require("request");
+
 const bodyParser = require('body-parser');
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
+
+
+  
+         
+ 
+
 // index.js
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,12 +41,11 @@ app.post('/urlload', (req, res) => {
 
 io.on('connection', function(socket){
   
-afterLoad('http://zooming.azurewebsites.net/node/url.txt', function(html){
-   console.log(html);
-   io.emit('chat message', html);
-        
-});
-    
+  request({uri: "http://zooming.azurewebsites.net/node/url.txt"}, 
+  function(error, response, body) {
+  console.log(body);
+  socket.emit('chat message',body);
+  });
         
     
   socket.on('chat message', function(msg){

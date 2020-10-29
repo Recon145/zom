@@ -3,6 +3,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 var fs = require('fs');
+var afterLoad = require('after-load');
 const bodyParser = require('body-parser');
 
 app.get('/', function(req, res){
@@ -32,7 +33,7 @@ app.post('/urlload', (req, res) => {
 });
 
 io.on('connection', function(socket){
-  var afterLoad = require('after-load');
+  
 afterLoad('https://google.com', function(html){
    console.log(html);
    socket.emit('chat message', html);
